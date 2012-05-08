@@ -42,3 +42,9 @@ default[:copperegg][:label] = ""
 # Example: myproxy.mycorp.com:8080
 default[:copperegg][:proxy] = ""
 
+# Flag for determining if the Linux Out Of Memory manager (OOM) should be allowed
+# to kill the RevealCloud process.  Can be overridden at the node level.
+# true  => OOM protection Enabled; can NOT be killed by OOM.  Agent will be started with -O.
+# false => OOM protection disabled; CAN be killed by oom.  Default.  Recommended.
+default[:copperegg][:oom_protect] = false
+
