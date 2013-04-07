@@ -21,8 +21,7 @@ tags = []
 
 # If node.copperegg.tags_override exists regardless of value, then do _not_
 # include the chef_environment and chef roles in the tag list
-if( not ( node.attribute?("copperegg") \
-    and node.copperegg.attribute?("tags_override") ) )
+if( not ( node.attribute?("copperegg") and node.copperegg.attribute?("tags_override") ) )
     # If the tags_override flag is not set, then we will take the tags specified at the node
     # and add to them the chef_environment and the roles
 
@@ -36,11 +35,11 @@ if( not ( node.attribute?("copperegg") \
 end
 
 # Add the existing tags to the list
-if (node.attribute?("copperegg") \
-    and node.copperegg.attribute?("tags") )
-then
-    node.copperegg.tags.each do |tag|
-        tags.push(tag)
+if (node.attribute?("copperegg") and node.copperegg.attribute?("tags") )
+    if node.copperegg.tags != ""
+      node.copperegg.tags.each do |tag|
+          tags.push(tag)
+      end
     end
 end
 
@@ -51,7 +50,6 @@ log ("tag_list = " + tag_list)
 
 
 #
-# Blind faith that Copperegg has this correct
 # In piping the output of curl to sh, a SIGTERM error is sometimes encountered. To avoid this
 # the curl statement is broken into consituent parts.
 #
@@ -69,7 +67,15 @@ script "revealcloud_install" do
         export RC_UUID="#{node.fqdn || ''}"
         /tmp/revealcloud_installer.sh
     EOH
+    not_if { ::File.exists?("/usr/local/revealcloud/run/revealcloud.pid") }
 end
+
+
+service "revealcloud" do
+  supports :start => true, :stop => true, :restart => true
+	action [:start] #starts the service if it's not running and enables it to start at system boot time
+end
+
 
 #
 # Ubuntu Only
