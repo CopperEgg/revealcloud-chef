@@ -18,27 +18,35 @@
 # }
 #
 tags = []
+tmpfqdn = ''
 
 # If node.copperegg.tags_override exists regardless of value, then do _not_
 # include the chef_environment and chef roles in the tag list
-if( not ( node.attribute?("copperegg") and node.copperegg.attribute?("tags_override") ) )
-    # If the tags_override flag is not set, then we will take the tags specified at the node
-    # and add to them the chef_environment and the roles
 
-    # Add the chef environment to the list
-    tags.push(node.chef_environment)
+if( node.attribute?("copperegg") )
+    if( node.copperegg.attribute?("tags_override") == false )
+      # Take the tags specified at the node and add to them the chef_environment and the roles
 
-    # Add any chef roles to the list
-    node.roles.each do |role|
+      # Add the chef environment to the list
+      tags.push(node.chef_environment)
+
+      # Add any chef roles to the list
+      node.roles.each do |role|
         tags.push(role)
+      end
     end
-end
-
-# Add the existing tags to the list
-if (node.attribute?("copperegg") and node.copperegg.attribute?("tags") )
-    if node.copperegg.tags != ""
-      node.copperegg.tags.each do |tag|
+    if ( node.copperegg.attribute?('tags') )
+      # Add the existing tags to the list
+      if (node.copperegg.tags).kind_of?(Array)
+        node.copperegg.tags.each do |tag|
           tags.push(tag)
+        end
+      end
+    end
+    if (node.copperegg.attribute?('use_fqdn') )
+      if (node.copperegg.use_fqdn == true)
+        log("Setting UUID to FQDN:\n")
+        tmpfqdn = "#{node.fqdn || ''}"  
       end
     end
 end
@@ -64,7 +72,7 @@ script "revealcloud_install" do
         export RC_LABEL="#{node[:copperegg][:label] || ''}"
         export RC_PROXY="#{node[:copperegg][:proxy] || ''}"
         export RC_OOM_PROTECT="#{node[:copperegg][:oom_protect] || ''}"
-        export RC_UUID="#{node.fqdn || ''}"
+        export RC_UUID="#{tmpfqdn || ''}"
         /tmp/revealcloud_installer.sh
     EOH
     not_if { ::File.exists?("/usr/local/revealcloud/run/revealcloud.pid") }
@@ -76,26 +84,4 @@ service "revealcloud" do
 	action [:start] #starts the service if it's not running and enables it to start at system boot time
 end
 
-
-#
-# Ubuntu Only
-# Place the FQDN at the value of RC_UUID in .profile so that on long in, the node is recognized.
-#
-platform = node.platform
-
-case node['platform']
-    when "ubuntu"
-        template "/home/revealcloud/.profile" do
-            source      "revealcloud_profile.erb"
-            owner       "revealcloud"
-            group       "revealcloud"
-            mode        "0644"
-            variables(
-                :RC_UUID => node.fqdn  # Use fully qualified domain name as UUID (revealcloud does the hashing)
-            )
-        end
-    else
-        log("Note, you are not installed RevealCloud to a Ubuntu plaform.  Your RC_UUID environment varliable
-             is not getting set from the fqdn.") { level :warn }
-end
 
