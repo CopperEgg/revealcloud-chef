@@ -1,9 +1,9 @@
 {
   "name": "revealcloud",
-  "description": "Installs/Configures CopperEgg RevealCloud monitoring service agent",
-  "long_description": "CopperEgg RevealCloud Agent\n===========\n\nThis cookbook has been deprecated.  Please download the [chef-copperegg cookbook](https://github.com/CopperEgg/chef-copperegg).\n\n\n\nLinks\n=====\n* [CopperEgg Homepage](http://www.copperegg.com)\n* [RevealCloud Signup](https://app.copperegg.com/signup)\n* [RevealCloud Login](https://app.copperegg.com/login)\n\n\n",
-  "maintainer": "CopperEgg, Inc.",
-  "maintainer_email": "support@copperegg.com",
+  "description": "Installs/Configures Uptime Cloud Monitor RevealCloud monitoring service agent",
+  "long_description": "Uptime Cloud Monitor RevealCloud Agent\n===========\n\nThis cookbook has been deprecated.  Please download the [chef-copperegg cookbook](https://github.com/CopperEgg/chef-copperegg).\n\n\n\nLinks\n=====\n* [Uptime Cloud Monitor Homepage](http://www.copperegg.com)\n* [RevealCloud Signup](https://app.copperegg.com/signup)\n* [RevealCloud Login](https://app.copperegg.com/login)\n\n\n",
+  "maintainer": "IDERA",
+  "maintainer_email": "support@idera.com",
   "license": "None",
   "platforms": {
     "linux": ">= 2.6.9"

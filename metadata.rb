@@ -1,7 +1,7 @@
-maintainer       "CopperEgg, Inc."
-maintainer_email "support@copperegg.com"
+maintainer       "IDERA"
+maintainer_email "support@idera.com"
 license          "None"
-description      "Installs/Configures CopperEgg RevealCloud monitoring service agent"
+description      "Installs/Configures Uptime Cloud Monitor RevealCloud monitoring service agent"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.0.8"
 
