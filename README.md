@@ -1,4 +1,4 @@
-CopperEgg RevealCloud Agent
+Uptime Cloud Monitor RevealCloud Agent
 ===========
 
 This cookbook has been deprecated.  Please download the [chef-copperegg cookbook](https://github.com/CopperEgg/chef-copperegg).
@@ -7,8 +7,8 @@ This cookbook has been deprecated.  Please download the [chef-copperegg cookbook
 
 Links
 =====
-* [CopperEgg Homepage](http://www.copperegg.com)
-* [RevealCloud Signup](https://app.copperegg.com/signup)
+* [Uptime Cloud Monitor Homepage](https://www.idera.com/infrastructure-monitoring-as-a-service/)
+* [RevealCloud Signup](https://www.idera.com/infrastructure-monitoring-as-a-service/freetrialsubscriptionform)
 * [RevealCloud Login](https://app.copperegg.com/login)
 
 
